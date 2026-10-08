@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Nightly Log</title>
+<meta name="theme-color" content="#f5f7f6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0e1412" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Nightly Log">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+  <button type="button" class="sync" id="sync" aria-live="polite"></button>
+
+  <!-- LOG TAB -->
+  <div id="tab-log">
+    <div class="top">
+      <div><h1>Tonight's log</h1><div class="date" id="logDateLabel"></div></div>
+      <input type="date" id="logDate" style="width:auto">
+    </div>
+
+    <section>
+      <div class="streaks">
+        <div class="streak"><b id="stGoal">0</b><span>days at 100%</span></div>
+        <div class="streak"><b id="stLog">0</b><span>days logged</span></div>
+      </div>
+      <div class="chips" id="goalChips"></div>
+    </section>
+
+    <section>
+      <h2>Hours</h2>
+      <div class="grid3">
+        <label class="f">School <span class="small">goal 1–2 h</span><input id="hSchool" type="number" inputmode="decimal" min="0" step="0.25" placeholder="0"></label>
+        <label class="f">College <span class="small">&nbsp;</span><input id="hCollege" type="number" inputmode="decimal" min="0" step="0.25" placeholder="0"></label>
+        <label class="f">Personal <span class="small">&nbsp;</span><input id="hPersonal" type="number" inputmode="decimal" min="0" step="0.25" placeholder="0"></label>
+      </div>
+    </section>
+
+    <section>
+      <h2>Gym</h2>
+      <div class="seg" id="gymSeg">
+        <button type="button" data-v="done">Done</button>
+        <button type="button" data-v="rest">Rest day</button>
+        <button type="button" data-v="skipped">Skipped</button>
+      </div>
+      <div class="small muted" id="restNote"></div>
+      <div class="row" style="justify-content:space-between"><span>Ate well</span>
+        <div class="seg" id="eatSeg" style="width:150px"><button type="button" data-v="yes">Yes</button><button type="button" data-v="no">No</button></div>
+      </div>
+      <div id="workoutBox" style="display:flex;flex-direction:column;gap:10px">
+        <label class="f">What I hit<textarea id="wHit" rows="2" placeholder="Push day: bench, OHP, dips…"></textarea></label>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <span class="small muted">PRs / top sets (charted)</span>
+          <div id="prRows" style="display:flex;flex-direction:column;gap:6px"></div>
+          <button type="button" class="link" id="addPr" style="align-self:flex-start">+ Add lift</button>
+        </div>
+        <label class="f">How it went<input id="wFelt" placeholder="Felt strong, shoulder a bit tight"></label>
+      </div>
+    </section>
+
+    <section>
+      <h2>Body &amp; mind</h2>
+      <label class="f">Sleep last night (hours)<input id="sleep" type="number" inputmode="decimal" min="0" max="16" step="0.25" placeholder="8"></label>
+      <div class="f" style="display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--muted)">Mood / energy (1–10)
+        <div class="seg mood" id="moodSeg"></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Grades</h2>
+      <div id="gradeList"></div>
+      <div class="gr-row">
+        <input id="gClass" list="classList" placeholder="Class">
+        <input id="gItem" placeholder="Test, HW…">
+        <input id="gScore" type="number" inputmode="decimal" placeholder="Score">
+        <input id="gOut" type="number" inputmode="decimal" placeholder="/100">
+      </div>
+      <datalist id="classList"></datalist>
+      <button type="button" class="btn ghost sm" id="addGrade" style="align-self:flex-start">Add grade</button>
+    </section>
+
+    <section>
+      <h2>Journal</h2>
+      <textarea id="note" rows="4" placeholder="How did today go?"></textarea>
+    </section>
+  </div>
+
+  <!-- TASKS TAB -->
+  <div id="tab-tasks" hidden>
+    <div class="top"><div><h1>To-do</h1><div class="date" id="taskSub"></div></div></div>
+
+    <div class="seg" id="viewSeg" style="margin-bottom:12px"><button type="button" data-view="sections">Sections</button><button type="button" data-view="impact">Grade impact</button></div>
+    <div class="card" id="benCard"></div>
+
+    <section style="border-top:0">
+      <h2>Add task</h2>
+      <input id="tTitle" placeholder="What needs doing?">
+      <div class="grid3">
+        <select id="tArea" aria-label="Area"><option value="school">School</option><option value="college">College</option><option value="personal">Personal</option><option value="gym">Gym</option></select>
+        <select id="tPri" aria-label="Priority"><option value="high">High</option><option value="med" selected>Medium</option><option value="low">Low</option></select>
+        <select id="tRepeat" aria-label="Repeat"><option value="">No repeat</option><option value="daily">Daily</option><option value="weekly">Weekly</option></select>
+      </div>
+      <div class="row">
+        <label class="f" style="flex:1">Due<input id="tDue" type="date"></label>
+        <button class="btn" id="tAdd" style="align-self:flex-end">Add</button>
+      </div>
+    </section>
+
+    <div id="taskAreas"></div>
+  </div>
+
+  <!-- STATS TAB -->
+  <div id="tab-stats" hidden>
+    <div class="top"><div><h1>Progress</h1><div class="date">Last 14 days</div></div></div>
+    <section>
+      <div class="streaks">
+        <div class="streak"><b id="stGoal2">0</b><span>days at 100% · best <span id="bestGoal" class="num">0</span></span></div>
+        <div class="streak"><b id="stLog2">0</b><span>days logged · best <span id="bestLog" class="num">0</span></span></div>
+      </div>
+    </section>
+    <section><h2>To-do completion</h2><div id="chComp"></div></section>
+    <section><h2>Hours by area</h2><div class="legend"><span><i style="background:var(--school)"></i>School</span><span><i style="background:var(--college)"></i>College</span><span><i style="background:var(--personal)"></i>Personal</span><span class="muted">dashed = 1 h school goal</span></div><div id="chHours"></div></section>
+    <section><h2>Gym, last 4 weeks</h2><div class="legend"><span><i style="background:var(--gym)"></i>Done</span><span><i style="background:var(--accent-soft);box-shadow:inset 0 0 0 2px var(--gym)"></i>Rest</span><span><i style="background:var(--bad)"></i>Skipped</span></div><div class="cal" id="gymCal"></div></section>
+    <section><h2>Lift progress</h2><select id="liftSel" aria-label="Lift"></select><div id="chLift"></div></section>
+    <section><h2>Sleep</h2><div id="chSleep"></div></section>
+    <section><h2>Mood / energy</h2><div id="chMood"></div></section>
+    <section><h2>Grades by class</h2><div id="gradeStats"></div></section>
+    <section><h2>AI support on finished work</h2><div id="aiStats"></div></section>
+    <section><h2>App</h2><div class="row"><button type="button" class="btn ghost sm" id="refreshBtn">Refresh from GitHub</button><button type="button" class="btn ghost sm" id="disconnectBtn">Disconnect this phone</button></div><div class="small muted">Your data lives in your private GitHub repo nightly-log-data. Claude reads and updates it at each nightly check-in.</div></section>
+    <section><h2>Grade weights</h2><div class="small muted">Set each class's category weights from its syllabus or Canvas grades page. These drive the Grade impact ranking.</div><div id="weightBox" style="display:flex;flex-direction:column;gap:10px"></div></section>
+    <section><h2>Sunday review</h2><div id="reviewBox"></div></section>
+  </div>
+</div>
+
+<div class="save-bar" id="saveBar"><button class="btn" id="saveLog">Save tonight's log</button></div>
+<nav class="tabs"><div class="in" role="tablist">
+  <button role="tab" data-tab="log" aria-selected="true">Log</button>
+  <button role="tab" data-tab="tasks" aria-selected="false">To-do</button>
+  <button role="tab" data-tab="stats" aria-selected="false">Stats</button>
+</div></nav>
+<div class="toast" id="toast" hidden></div>
+
+<div id="setup" class="setup" hidden>
+  <div class="setup-in">
+    <h1>Connect Nightly Log</h1>
+    <p class="muted">One-time setup on this phone. The app saves to your private GitHub repo, so it needs a GitHub token that can only touch that one repo.</p>
+    <ol class="steps">
+      <li>Open <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">GitHub → New fine-grained token</a> (sign in if asked).</li>
+      <li>Token name: <b>Nightly Log app</b>. Expiration: <b>1 year</b> (or longer).</li>
+      <li>Repository access: <b>Only select repositories</b> → pick <b>nightly-log-data</b>.</li>
+      <li>Permissions → Repository permissions → <b>Contents</b>: <b>Read and write</b>.</li>
+      <li>Tap <b>Generate token</b>, copy it, and paste it below.</li>
+    </ol>
+    <label class="f">GitHub token<input id="tokenIn" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="github_pat_…"></label>
+    <button type="button" class="btn" id="connectBtn">Connect</button>
+    <div class="small" id="connectMsg" role="status"></div>
+    <p class="small muted">The token stays on this phone and is only sent to GitHub.</p>
+  </div>
+</div>
+
+<script src="store.js"></script>
+<script src="app.js"></script>
+<script>
+if("serviceWorker" in navigator){window.addEventListener("load",()=>{navigator.serviceWorker.register("sw.js").catch(()=>{})})}
+</script>
+</body>
+</html>
