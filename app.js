@@ -395,6 +395,8 @@ function renderAll(){renderTasks();if(!dirty)fillForm();else renderChips();if(ta
 
 /* ---------- boot ---------- */
 showTab(tab);fillForm();renderTasks();
+function greet(){const h=new Date().getHours();const el=document.getElementById("hello");if(el)el.textContent=(h<5?"Up late, J":h<12?"Good morning, J":h<17?"Good afternoon, J":"Good evening, J");}
+greet();setInterval(greet,600000);
 /* ---------- sync status + setup ---------- */
 function ago(iso){if(!iso)return"";const m=Math.round((Date.now()-new Date(iso))/60000);return m<1?"just now":m<60?m+" min ago":new Date(iso).toLocaleTimeString(undefined,{hour:"numeric",minute:"2-digit"})}
 function renderSync(s){

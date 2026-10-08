@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Nightly Log</title>
-<meta name="theme-color" content="#f5f7f6" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0e1412" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#ffffff">
+<meta name="color-scheme" content="light">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Nightly Log">
@@ -14,7 +14,7 @@
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <link rel="icon" href="icons/icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -24,7 +24,7 @@
   <!-- LOG TAB -->
   <div id="tab-log">
     <div class="top">
-      <div><h1>Tonight's log</h1><div class="date" id="logDateLabel"></div></div>
+      <div><div class="hello" id="hello"></div><h1>Tonight's log</h1><div class="date" id="logDateLabel"></div></div>
       <input type="date" id="logDate" style="width:auto">
     </div>
 
@@ -39,9 +39,9 @@
     <section>
       <h2>Hours</h2>
       <div class="grid3">
-        <label class="f">School <span class="small">goal 1–2 h</span><input id="hSchool" type="number" inputmode="decimal" min="0" step="0.25" placeholder="0"></label>
-        <label class="f">College <span class="small">&nbsp;</span><input id="hCollege" type="number" inputmode="decimal" min="0" step="0.25" placeholder="0"></label>
-        <label class="f">Personal <span class="small">&nbsp;</span><input id="hPersonal" type="number" inputmode="decimal" min="0" step="0.25" placeholder="0"></label>
+        <label class="f">School<input id="hSchool" type="number" inputmode="decimal" min="0" step="0.25" placeholder="goal 1–2"></label>
+        <label class="f">College<input id="hCollege" type="number" inputmode="decimal" min="0" step="0.25" placeholder="0"></label>
+        <label class="f">Personal<input id="hPersonal" type="number" inputmode="decimal" min="0" step="0.25" placeholder="0"></label>
       </div>
     </section>
 
@@ -143,9 +143,9 @@
 
 <div class="save-bar" id="saveBar"><button class="btn" id="saveLog">Save tonight's log</button></div>
 <nav class="tabs"><div class="in" role="tablist">
-  <button role="tab" data-tab="log" aria-selected="true">Log</button>
-  <button role="tab" data-tab="tasks" aria-selected="false">To-do</button>
-  <button role="tab" data-tab="stats" aria-selected="false">Stats</button>
+  <button role="tab" data-tab="log" aria-selected="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>Log</button>
+  <button role="tab" data-tab="tasks" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg>To-do</button>
+  <button role="tab" data-tab="stats" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 20V11M12 20V5M19 20v-6"/></svg>Stats</button>
 </div></nav>
 <div class="toast" id="toast" hidden></div>
 

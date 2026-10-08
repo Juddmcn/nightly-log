@@ -1,6 +1,6 @@
 /* Network-first for the app's own files so updates show up on the next open;
    falls back to the cached copy when offline. GitHub API calls are never cached. */
-const CACHE = "nightly-log-v1";
+const CACHE = "nightly-log-v2";
 const SHELL = ["./", "index.html", "style.css", "store.js", "app.js", "manifest.webmanifest", "icons/icon-192.png", "icons/apple-touch-icon.png"];
 self.addEventListener("install", e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting())); });
 self.addEventListener("activate", e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim())); });
